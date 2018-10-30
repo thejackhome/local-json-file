@@ -1,0 +1,53 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          
+        <title>local json file</title>
+    </head>
+    <body>
+        
+        <script>
+
+            // function to sort key values
+            function sort(json_object, key_to_sort_by) {
+                function sortByKey(a, b) {
+                    let x = a[key_to_sort_by];
+                    let y = b[key_to_sort_by];
+                        return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+                }
+                json_object.sort(sortByKey);
+            }
+
+            // function to format numbers: round up/down and localization
+            function numberFormat(format) {
+                let round = Math.round(format);
+                let locale = round.toLocaleString('de-DE');
+                return locale;
+            }
+            
+            let request = new XMLHttpRequest();
+            request.open('GET', 'rank.json', true);
+            request.onload = function () {
+                const data = JSON.parse(this.response);
+                let results = data.week1;
+                let sum = results.reduce((acc, point) => acc + point.points, 0);
+
+                document.write('<table><tr><td>Name</td><td>Points</td></tr>');
+
+                for (let i = 0; i < results.length; i++) {
+                    sort(results, 'points');
+                    document.write('<tr><td>' + results[i].name + '</td><td>' + numberFormat(results[i].points) + '</td></tr>');
+                }
+
+                document.write('</table>');
+                console.log('Total points assigned = ' + numberFormat(sum))
+            }
+
+            request.send();
+        </script>
+
+    </body>
+</html>
