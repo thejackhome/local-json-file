@@ -1,0 +1,34 @@
+{
+    "cities": [
+        {
+            "name": "Rome",
+            "country": "Italy",
+            "stats": {
+                "area_kmq": 1287.36,
+                "population": 2868872,
+                "temperature": 25.2
+            },
+            "visited": true
+        },
+        {
+            "name": "Berlin",
+            "country": "Germany",
+            "stats": {
+                "area_kmq": 891.68,
+                "population": 3613495,
+                "temperature": 19.5
+            },
+            "visited": false
+        },
+        {
+            "name": "Paris",
+            "country": "France",
+            "stats": {
+                "area_kmq": 105.4,
+                "population": 2206488,
+                "temperature": 20.7
+            },
+            "visited": true
+        }
+    ]
+}

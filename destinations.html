@@ -1,0 +1,87 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="x-ua-compatible" content="ie=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+          
+        <title>local json file</title>
+    </head>
+    <body>
+        <script>
+            let request = new XMLHttpRequest();
+            request.open('GET', 'destinations.json');
+            request.onload = function () {
+                const data = JSON.parse(this.response);
+                const cities = data.cities;
+
+                // first method (A) - .map() => ES6
+                let method_1a = cities.map(city => city.name);
+                console.log(method_1a);
+
+                // first method (B) - .map()
+                let method_1b = cities.map(function (city) {
+                    return city.name
+                });
+                console.log(method_1b);
+
+                // second method - .forEach()
+                let method_2 = [];
+                cities.forEach(function (city) {
+                    method_2.push(city.name)
+                });
+                console.log(method_2);
+
+                // third method - for...in
+                let method_3 = [];
+                for (let city in cities) {
+                    method_3.push(cities[city].name)
+                };
+                console.log(method_3);
+
+                // fourth method - for()
+                let method_4 = [];
+                for (let i = 0; i < cities.length; i++) {
+                    method_4.push(cities[i].name)
+                };
+                console.log(method_4);
+
+
+                // select only the countries which we have not yet visited - .filter() => ES6
+                let not_visited = cities
+                    .filter(city => city.visited === false)
+                    .map(not_yet => not_yet.name);
+                console.log(not_visited);
+
+
+                // sum the population of all cities that we have visited
+                let total_population = cities
+                    .filter(city => city.visited)
+                    .map(visited => visited.stats.population)
+                    .reduce((acc, population) => acc + population, 0);
+                console.log(total_population);
+
+                // only using .reduce()
+                let reduce_only = cities.reduce((acc, total_population) =>
+                    total_population.visited ? acc + total_population.stats.population : acc, 0);
+                console.log(reduce_only.toLocaleString('de-DE'));
+
+                // find the average temperature for the cities we visited
+                let temperatures = cities
+                    .filter(city => city.visited)
+                    .map(visited => visited.stats.temperature);
+                
+                let avg_temperature = temperatures.reduce((acc, temperature) =>
+                    acc + temperature, 0) / temperatures.length;
+                console.log(Math.round(avg_temperature));
+
+                // extract cities and temperature (nested) only
+                let extraction = cities
+                    .map(i => ({name: i.name, temperature: i.stats.temperature}));
+                console.log(extraction);
+            }
+
+            request.send();    
+        </script>
+    </body>
+</html>
